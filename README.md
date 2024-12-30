@@ -1,20 +1,20 @@
 # MOT-Toolbox
 This is a simple toolbox for MOT.
 
-![示例图片](assets/fig1.png "这是一个示例图片")
+![Example picture](assets/fig1.png "this is a example picture")
 
 # 
 ```markdown
 project/
 │
-├── main.py              # 主程序入口
-├── video_player.py      # 视频播放器模块
-├── modules/             # 功能模块目录
-│   ├── __init__.py      # 模块目录初始化文件
-│   ├── base_module.py   # 基础模块类
-│   ├── video_overlay.py # 视频分屏模块
-│   ├── video_annotation.py # 视频标注模块
+├── main.py              # Main Program Entry
+├── video_player.py      # Video Player Module
+├── modules/             # Function Module Directory
+│   ├── __init__.py      # Module Directory Initialization Files
+│   ├── base_module.py   # Base Module Class
+│   ├── video_overlay.py # Video Split Screen Module
+│   ├── video_annotation.py # Video Annotation Module
 │
-├── config.json          # 配置文件
-└── annotations/         # 示例标注文件目录
+├── config.json          # Configuration File
+└── annotations/         # Annotation Files Directory
     └── example.txt

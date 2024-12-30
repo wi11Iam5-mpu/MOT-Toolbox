@@ -9,7 +9,6 @@ from tkinter import filedialog
 
 
 class VideoPlayer:
-    # 从 __init__ 方法中移除 resolution 参数
     def __init__(self, root, canvas, fps=30, default_video_path=None, default_image_path=None):
         self.root = root
         self.canvas = canvas
@@ -37,11 +36,10 @@ class VideoPlayer:
         # current_frame_idx = 0
 
     def load_video(self, file_path):
-        """加载视频文件，并调整窗口大小"""
+        """Load video files and resize the window"""
         if not file_path or not os.path.isfile(file_path):
             raise ValueError(f"Invalid video file path: {file_path}")
 
-        # 释放旧的视频资源
         if self.cap:
             self.cap.release()
 
@@ -61,7 +59,7 @@ class VideoPlayer:
             self.progress.configure(to=self.total_frames - 1)
 
     def load_image_folder(self, folder_path):
-        """加载图片文件夹，并调整窗口大小"""
+        """Load the picture folder and resize the window"""
         self.image_folder = folder_path
         self.image_files = sorted(
             [f for f in os.listdir(folder_path) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
@@ -70,7 +68,6 @@ class VideoPlayer:
         self.total_frames = len(self.image_files)
         self.current_frame_idx = 0
 
-        # 获取第一张图片的分辨率
         if self.image_files:
             first_image_path = os.path.join(folder_path, self.image_files[0])
             first_image = cv2.imread(first_image_path)
@@ -84,7 +81,7 @@ class VideoPlayer:
             self.progress.configure(to=self.total_frames - 1)
 
     def setup_progress_bar(self, parent_frame):
-        """设置进度条"""
+        """Setting the progress bar"""
         label = ctk.CTkLabel(parent_frame, text="Progress Bar")
         label.pack(side=ctk.LEFT, padx=5)
         progress = ctk.CTkSlider(parent_frame, from_=0, to=100, command=self.update_frame)
@@ -92,7 +89,7 @@ class VideoPlayer:
         self.set_progress_bar(progress)
 
     def process_frame(self, frame, frame_idx):
-        """按模块顺序处理帧"""
+        """Processing frames in module order"""
         for module in self.modules:
             frame = module.process_frame(frame, frame_idx)
         return frame
@@ -116,14 +113,14 @@ class VideoPlayer:
     def add_module(self, module):
         """Add a processing module."""
         self.modules.append(module)
-        # 按优先级排序，priority 值越小优先级越高
+        # Sort by priority, the smaller the priority value, the higher the priority.
         self.modules.sort(key=lambda mod: mod.priority)
         print(f"Module {module.name} added with priority {module.priority}")
         if hasattr(module, "split_position"):
             self.split_positions[module] = module.split_position
 
     def get_current_frame(self):
-        """返回当前帧数据"""
+        """Returns the current frame data"""
         if self.cap and self.cap.isOpened():
             self.cap.set(cv2.CAP_PROP_POS_FRAMES, self.current_frame_idx)
             ret, frame = self.cap.read()
@@ -138,8 +135,8 @@ class VideoPlayer:
         return None
 
     def update_split_positions(self, event=None, video_player=None):
-        """更新分屏位置并立即刷新画面"""
-        if video_player:  # 如果传入了 VideoPlayer 实例，手动刷新当前帧
+        """Updates the split-screen position and immediately refreshes the screen"""
+        if video_player:
             current_frame = video_player.get_current_frame()
             if current_frame is not None:
                 processed_frame = self.process_frame(current_frame, video_player.current_frame_idx)
@@ -156,7 +153,7 @@ class VideoPlayer:
     def _play_loop(self):
         """Internal playback loop."""
         while self.playing:
-            # start_time = time.time()  # 开始时间
+            # start_time = time.time()
             try:
                 frame = None
                 if self.cap and self.cap.isOpened():
@@ -213,9 +210,8 @@ class VideoPlayer:
         caller_name = caller_frame.function
         print(f"Updating canvas size - Called by function: {caller_name}")
 
-        """动态调整图片尺寸以适应 Canvas"""
-        if not self.playing:  # 确保仅在暂停或无手动更新时调整大小
-            """动态调整图片尺寸以适应 Canvas，仅在必要时调用"""
+        """Dynamically resize images to fit Canvas size."""
+        if not self.playing:  #
             canvas_width = self.canvas.winfo_width()
             canvas_height = self.canvas.winfo_height()
 
@@ -227,7 +223,7 @@ class VideoPlayer:
                 frame = cv2.imread(image_path)
                 if frame is not None:
                     frame = cv2.resize(frame, (canvas_width, canvas_height))
-                    self._display_frame(frame)  # 仅显示一次
+                    self._display_frame(frame)  # display once
 
     def stop(self):
         """Stop playback and reset."""
