@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import tkinter as tk
-from tkinter import ttk
+# from tkinter import ttk
 from .base_module import BaseModule
 import os
 import customtkinter as ctk
@@ -10,9 +10,10 @@ import customtkinter as ctk
 class VideoOverlayModule(BaseModule):
     """视频分屏模块：左侧彩色，右侧灰度或深度图"""
 
-    def __init__(self, root, split_position=0.5, name='VideoOverlayModule', priority=2):
+    def __init__(self, root, split_position=0.5, name='VideoOverlayModule', default_depth_map_path="", priority=2):
         super().__init__(root, name, priority)
         self.split_position = split_position
+        self.default_depth_map_path = default_depth_map_path
         self.depth_images = []  # 存储深度图文件路径
         self.depth_image_folder = None  # 深度图文件夹路径
 
@@ -33,7 +34,8 @@ class VideoOverlayModule(BaseModule):
 
     def load_depth_images(self):
         """加载深度图文件夹"""
-        self.depth_image_folder = tk.filedialog.askdirectory(title="Select Depth Image Folder")
+        self.depth_image_folder = tk.filedialog.askdirectory(initialdir=self.default_depth_map_path,
+                                                             title="Select Depth Image Folder")
         if self.depth_image_folder:
             self.depth_images = [f for f in os.listdir(self.depth_image_folder) if
                                  f.endswith('.png') or f.endswith('.jpg') or f.endswith('.jpeg')]

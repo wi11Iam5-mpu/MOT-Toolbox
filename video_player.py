@@ -287,20 +287,21 @@ class VideoPlayer:
 
     def create_controls(self, parent_frame):
         """Create video control buttons."""
-        load_images_button = ctk.CTkButton(parent_frame, text="Load Images", command=self.load_image_folder_dialog)
+        load_images_button = ctk.CTkButton(parent_frame, text="Load Images", command=self.load_image_folder_dialog, width=80)
         load_images_button.pack(side="left", padx=5)
 
-        play_button = ctk.CTkButton(parent_frame, text="Play", command=self.play, width=100)
+        load_video_button = ctk.CTkButton(parent_frame, text="Load Video", command=self.load_video_dialog, width=80)
+        load_video_button.pack(side="left", padx=5)
+
+        play_button = ctk.CTkButton(parent_frame, text="Play", command=self.play, width=80)
         play_button.pack(side="left", padx=5)
 
-        pause_button = ctk.CTkButton(parent_frame, text="Pause", command=self.pause, width=100)
+        pause_button = ctk.CTkButton(parent_frame, text="Pause", command=self.pause, width=80)
         pause_button.pack(side="left", padx=5)
 
-        stop_button = ctk.CTkButton(parent_frame, text="Stop", command=self.stop, width=100)
+        stop_button = ctk.CTkButton(parent_frame, text="Stop", command=self.stop, width=80)
         stop_button.pack(side="left", padx=5)
 
-        # load_video_button = ctk.CTkButton(parent_frame, text="Load Video", command=self.load_video_dialog)
-        # load_video_button.pack(side="left", padx=5)
 
     def load_video_dialog(self):
         """Open file dialog to load video."""

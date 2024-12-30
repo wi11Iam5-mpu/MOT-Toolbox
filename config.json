@@ -7,15 +7,16 @@
   },
   "video_player": {
     "fps": 100,
-    "default_video_path": "O:\\desktop_misc",
-    "default_image_path": "O:\\G\\files\\MHT\\GMOT\\MOT17\\train\\MOT17-02-FRCNN\\img1"
+    "default_video_path": "./videos",
+    "default_image_path": "./images"
   },
   "modules": [
     {
       "name": "VideoOverlayModule",
       "params": {
         "priority": 2,
-        "split_position": 1.0
+        "default_depth_map_path": "./depth_maps",
+        "split_position": 0.5
       }
     },
     {

@@ -5,7 +5,6 @@ This is a simple toolbox for MOT.
 
 # 
 ```markdown
-<pre>
 project/
 │
 ├── main.py              # 主程序入口
@@ -19,4 +18,3 @@ project/
 ├── config.json          # 配置文件
 └── annotations/         # 示例标注文件目录
     └── example.txt
-</pre>
