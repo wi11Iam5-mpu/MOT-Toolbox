@@ -1,0 +1,22 @@
+{
+  "gui": {
+    "resolution": [
+      640,
+      360
+    ]
+  },
+  "video_player": {
+    "fps": 100,
+    "default_video_path": "O:\\desktop_misc",
+    "default_image_path": "O:\\G\\files\\MHT\\GMOT\\MOT17\\train\\MOT17-02-FRCNN\\img1"
+  },
+  "modules": [
+  ],
+  "shortcuts": {
+    "Play": "<space>",
+    "Pause": "p",
+    "Stop": "s",
+    "LoadVideo": "o",
+    "ToggleAnnotations": "a"
+  }
+}

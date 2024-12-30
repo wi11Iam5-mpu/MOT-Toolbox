@@ -1,0 +1,38 @@
+{
+  "gui": {
+    "resolution": [
+      640,
+      360
+    ]
+  },
+  "video_player": {
+    "fps": 100,
+    "default_video_path": "O:\\desktop_misc",
+    "default_image_path": "O:\\G\\files\\MHT\\GMOT\\MOT17\\train\\MOT17-02-FRCNN\\img1"
+  },
+  "modules": [
+    {
+      "name": "VideoOverlayModule",
+      "params": {
+        "priority": 2,
+        "split_position": 1.0
+      }
+    },
+    {
+      "name": "VideoAnnotationModule",
+      "params": {
+        "priority": 3,
+        "default_annotation_path": "./annotations",
+        "show_annotations": true,
+        "confidence_threshold": 0.5
+      }
+    }
+  ],
+  "shortcuts": {
+    "Play": "<space>",
+    "Pause": "p",
+    "Stop": "s",
+    "LoadVideo": "o",
+    "ToggleAnnotations": "a"
+  }
+}
