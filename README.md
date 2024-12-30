@@ -1,6 +1,8 @@
 # MOT-Toolbox
 This is a simple toolbox for MOT.
 
+![示例图片](assets/fig1.png "这是一个示例图片")
+
 # 
 ```markdown
 <pre>
