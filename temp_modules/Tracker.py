@@ -231,7 +231,7 @@ if __name__ == "__main__":
     image = np.zeros((1080, 1920, 3), dtype=np.uint8)
 
     # 逐帧处理检测结果
-    for frame in range(1, len(reader)):  # 假设处理前 100 帧
+    for frame in range(1, len(reader)[:100]):  # 假设处理前 100 帧
         # 获取当前帧的检测结果
         detections = reader.get_detections_by_frame(frame)
         # 更新跟踪器

@@ -3,7 +3,7 @@ import numpy as np
 
 
 class Visualizer:
-    def __init__(self, colors=None, line_width=2, font_scale=0.5, font_thickness=1):
+    def __init__(self, colors=None, line_width=2, font_scale=0.5, font_thickness=1, vis_mode=None):
         """
         初始化可视化工具。
 
@@ -12,11 +12,14 @@ class Visualizer:
             line_width (int): 绘制框和轨迹的线宽。
             font_scale (float): 字体大小。
             font_thickness (int): 字体粗细。
+            vis_mode (list): 轨迹可视化模式列表，可选 "box"、"center"、"bottom_center", "id"。
         """
         self.colors = colors if colors is not None else {}
         self.line_width = line_width
         self.font_scale = font_scale
         self.font_thickness = font_thickness
+        self.vis_mode = vis_mode if vis_mode is not None else ["box"]
+        self.track_history = {}  # 用于存储轨迹历史
 
     def draw_detections(self, image, detections):
         """
@@ -54,12 +57,33 @@ class Visualizer:
             if track_id not in self.colors:
                 self.colors[track_id] = tuple(np.random.randint(0, 255, 3).tolist())  # 随机颜色
 
+            # 计算边界框中心和底边中心
+            center = (x + w // 2, y + h // 2)  # 边界框中心
+            bottom_center = (x + w // 2, y + h)  # 边界框底边中心
+
+            # 更新轨迹历史
+            if track_id not in self.track_history:
+                self.track_history[track_id] = []
+            self.track_history[track_id].append((center, bottom_center))
+
             # 绘制边界框
-            cv2.rectangle(image, (x, y), (x + w, y + h), self.colors[track_id], self.line_width)
+            if "box" in self.vis_mode:
+                cv2.rectangle(image, (x, y), (x + w, y + h), self.colors[track_id], self.line_width)
+
+            # 绘制中心轨迹
+            if "center" in self.vis_mode:
+                for point in self.track_history[track_id]:
+                    cv2.circle(image, point[0], 2, self.colors[track_id], -1)  # 绘制中心轨迹
+
+            # 绘制底边中心轨迹
+            if "bottom_center" in self.vis_mode:
+                for point in self.track_history[track_id]:
+                    cv2.circle(image, point[1], 2, self.colors[track_id], -1)  # 绘制底边中心轨迹
 
             # 绘制轨迹 ID
-            cv2.putText(image, f"ID: {track_id}", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX,
-                        self.font_scale, self.colors[track_id], self.font_thickness)
+            if "id" in self.vis_mode:
+                cv2.putText(image, f"ID: {track_id}", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX,
+                            self.font_scale, self.colors[track_id], self.font_thickness)
         return image
 
     def show_frame(self, image, window_name="Tracking Result"):
@@ -113,16 +137,10 @@ class Visualizer:
 # 示例使用
 if __name__ == "__main__":
     # 创建可视化工具
-    visualizer = Visualizer()
-
-    # 模拟检测结果和轨迹
-    detections = [
-        [100, 100, 50, 50],  # [x, y, w, h]
-        [200, 200, 60, 60],
-        [300, 300, 70, 70]
-    ]
+    visualizer = Visualizer(vis_mode=["box", "center", "bottom_center"])  # 可组合模式
 
 
+    # 模拟轨迹数据
     class Track:
         def __init__(self, track_id, state):
             self.track_id = track_id
@@ -133,7 +151,7 @@ if __name__ == "__main__":
 
 
     tracks = [
-        Track(1, [100, 100, 50, 50]),
+        Track(1, [100, 100, 50, 50]),  # [x, y, w, h]
         Track(2, [200, 200, 60, 60]),
         Track(3, [300, 300, 70, 70])
     ]
@@ -141,8 +159,7 @@ if __name__ == "__main__":
     # 创建空白图像
     image = np.zeros((500, 500, 3), dtype=np.uint8)
 
-    # 绘制检测结果和轨迹
-    image = visualizer.draw_detections(image, detections)
+    # 绘制轨迹
     image = visualizer.draw_tracks(image, tracks)
 
     # 显示结果

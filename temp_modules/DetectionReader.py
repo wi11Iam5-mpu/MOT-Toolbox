@@ -2,7 +2,7 @@ import numpy as np
 
 
 class MOT17DetectionReader:
-    def __init__(self, file_path):
+    def __init__(self, file_path, confidence_threshold=0.0):
         """
         初始化 MOT17 检测结果读取器。
 
@@ -10,6 +10,7 @@ class MOT17DetectionReader:
             file_path (str): MOT17 det.txt 文件的路径。
         """
         self.file_path = file_path
+        self.confidence_threshold = confidence_threshold
         self.detections = self._load_detections()
 
     def _load_detections(self):
@@ -31,7 +32,9 @@ class MOT17DetectionReader:
                 # 将检测结果添加到对应帧的列表中
                 if frame not in detections:
                     detections[frame] = []
-                detections[frame].append([x, y, w, h, conf])
+                # 只保留置信度大于阈值的检测结果
+                if conf >= self.confidence_threshold:
+                    detections[frame].append([x, y, w, h, conf])
 
         return detections
 
