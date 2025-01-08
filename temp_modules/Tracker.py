@@ -4,7 +4,7 @@ from scipy.optimize import linear_sum_assignment
 
 
 class MultiObjectTracker:
-    def __init__(self, filter_class, adapter, max_age=3, min_hits=1, iou_threshold=0.3):
+    def __init__(self, filter_class, adapter, max_age=30, min_hits=3, iou_threshold=0.3):
         """
         初始化多目标跟踪器。
 
@@ -54,7 +54,7 @@ class MultiObjectTracker:
             self.tracks[track_idx].mark_missed()
 
         # 删除丢失的轨迹
-        self.tracks = [track for track in self.tracks if not track.is_deleted()]
+        self.tracks = [track for track in self.tracks if not track.is_deleted(self.max_age)]
 
     def _data_association(self, detections):
         """
@@ -177,9 +177,9 @@ class Track:
         """标记轨迹为丢失。"""
         self.time_since_update += 1
 
-    def is_deleted(self):
+    def is_deleted(self, max_age=30):
         """判断轨迹是否应被删除。"""
-        return self.time_since_update > 3  # 超过 3 帧未匹配则删除
+        return self.time_since_update > max_age  # 超过 3 帧未匹配则删除
 
     def get_state(self):
         """获取轨迹的当前状态（边界框）。"""
@@ -206,32 +206,34 @@ def evaluate_mot17():
 
 # 示例使用
 if __name__ == "__main__":
-    from Filter import SimpleEKF, DetectionToFilterAdapter
+    from Filter import SimpleKalmanFilter, DetectionToFilterAdapter
     from DetectionReader import MOT17DetectionReader, MOT17TrackSaver
     from utils import Visualizer
 
-    is_vis = False
+    is_vis = True
 
     # MOT17 det.txt 文件路径
     file_path = r"O:\G\files\MHT\GMOT\trackers\data\mot17_train_byte\MOT17-02-FRCNN\det\det.txt"
     # 输出跟踪结果文件路径
-    output_path = output_file = r"O:\G\Projects\TrackEval-master\TrackEval-master\data\trackers\mot_challenge\MOT17-train\MHT_tracklet\data\MOT17-02-FRCNN.txt"
+    output_path = r"O:\G\Projects\TrackEval-master\TrackEval-master\data\trackers\mot_challenge\MOT17-train\MHT_tracklet\data\MOT17-02-FRCNN.txt"
 
     # 创建 MOT17 检测结果读取器
-    reader = MOT17DetectionReader(file_path)
+    reader = MOT17DetectionReader(file_path, confidence_threshold=0.7)  # 0.5 - 0.6 - 0.7 提升很大, 忍耐窗口3->30，稍微降低MOTA, 但是提升了IDF1
     saver = MOT17TrackSaver(output_path)
+
+    # TODO:adapter和filter的参数应该绑定
     # 创建适配器
-    adapter = DetectionToFilterAdapter()
+    adapter = DetectionToFilterAdapter(filter_type='simple')
     # 创建多目标跟踪器
-    tracker = MultiObjectTracker(filter_class=SimpleEKF, adapter=adapter)
+    tracker = MultiObjectTracker(filter_class=SimpleKalmanFilter, adapter=adapter)
 
     # 创建可视化工具
-    visualizer = Visualizer()
+    visualizer = Visualizer(vis_mode=["center", "bottom_center"])
     # 创建空白图像
     image = np.zeros((1080, 1920, 3), dtype=np.uint8)
 
     # 逐帧处理检测结果
-    for frame in range(1, len(reader)[:100]):  # 假设处理前 100 帧
+    for frame in range(1, len(reader)):  # 假设处理前 100 帧
         # 获取当前帧的检测结果
         detections = reader.get_detections_by_frame(frame)
         # 更新跟踪器
@@ -239,14 +241,14 @@ if __name__ == "__main__":
         saver.save_tracks(frame, tracker.tracks)
         if is_vis:
             # 绘制检测结果和轨迹
-            image = visualizer.draw_detections(image, detections)
+            # image = visualizer.draw_detections(image, detections)
             image = visualizer.draw_tracks(image, tracker.tracks)
             # 显示结果
             visualizer.show_frame(image)
 
             # 保存结果
-            visualizer.save_frame(image, "output_frame.png")
-            visualizer.save_video([image], "output_video.mp4", fps=30)
+            # visualizer.save_frame(image, "output_frame.png")
+            # visualizer.save_video([image], "output_video.mp4", fps=30)
 
         # 打印当前轨迹
         print(f"Frame {frame}:")
