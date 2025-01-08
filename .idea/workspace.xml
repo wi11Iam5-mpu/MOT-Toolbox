@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="6e6cfa42-a896-4247-ab57-34842ce1740a" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp_modules/Filter.py" beforeDir="false" afterPath="$PROJECT_DIR$/temp_modules/Filter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp_modules/LieGroup.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp_modules/Tracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/temp_modules/Tracker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp_modules/run_tracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/temp_modules/run_tracker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/video_annotation.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/video_annotation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records.txt" beforeDir="false" afterPath="$PROJECT_DIR$/records.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,25 +44,25 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Python.Filter.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.run_tracker.executor": "Run",
-    "Python.video_player.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/MOT_Research/MOT3D/Fun_Play/MHT/tools/MOT-Toolbox",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Python.Filter.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.run_tracker.executor&quot;: &quot;Run&quot;,
+    &quot;Python.video_player.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/MOT_Research/MOT3D/Fun_Play/MHT/tools/MOT-Toolbox&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\MOT_Research\MOT3D\Fun_Play\MHT\tools\MOT-Toolbox" />
@@ -72,7 +70,7 @@
       <recent name="D:\MOT_Research\MOT3D\Fun_Play\MHT\tools\MOT-Toolbox\assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.run_tracker">
+  <component name="RunManager" selected="Python.main">
     <configuration name="Filter" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="MOT-Toolbox" />
       <option name="ENV_FILES" value="" />
@@ -145,9 +143,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.run_tracker" />
         <item itemvalue="Python.Filter" />
-        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -178,7 +176,9 @@
       <workItem from="1736084900899" duration="389000" />
       <workItem from="1736180832174" duration="767000" />
       <workItem from="1736184949250" duration="1303000" />
-      <workItem from="1736334655182" duration="583000" />
+      <workItem from="1736334655182" duration="869000" />
+      <workItem from="1736340197063" duration="2808000" />
+      <workItem from="1736372548063" duration="1165000" />
     </task>
     <servers />
   </component>
@@ -188,7 +188,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MOT_Toolbox$video_player.coverage" NAME="video_player 覆盖结果" MODIFIED="1735576977272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MOT_Toolbox$run_tracker.coverage" NAME="run_tracker 覆盖结果" MODIFIED="1736335143116" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/temp_modules" />
-    <SUITE FILE_PATH="coverage/MOT_Toolbox$main.coverage" NAME="main 覆盖结果" MODIFIED="1736185669146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MOT_Toolbox$main.coverage" NAME="main 覆盖结果" MODIFIED="1736373304988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MOT_Toolbox$Filter.coverage" NAME="Filter 覆盖结果" MODIFIED="1736335086325" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/temp_modules" />
   </component>
 </project>

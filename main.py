@@ -8,7 +8,7 @@ from modules.video_annotation import VideoAnnotationModule
 class MainApplication:
     def __init__(self, root):
         self.root = root
-        self.root.title("MOT Toolbox V0.4")
+        self.root.title("MOT Toolbox V0.4 by wi11iam5")
 
         # Setting up our theme
         ctk.set_appearance_mode("system")  # optional "light", "dark", "system"

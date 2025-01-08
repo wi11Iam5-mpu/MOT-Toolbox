@@ -273,6 +273,13 @@ class VideoAnnotationModule(BaseModule):
                     self.overlay_font_size,
                     (255, 255, 255), 1, cv2.LINE_AA)
 
+
+        total_boxes_max_value = max(max(self.total_boxes_per_frame), 1)
+        total_boxes_min_value = min(self.total_boxes_per_frame)
+        filtered_max_value = max(max(self.filtered_boxes_per_frame), 1)
+        filtered_min_value = min(self.filtered_boxes_per_frame)
+        max_value = max(total_boxes_max_value, filtered_max_value)
+        min_value = min(total_boxes_min_value, filtered_min_value)
         self._draw_curve(
             frame,
             self.total_boxes_per_frame,
@@ -281,7 +288,9 @@ class VideoAnnotationModule(BaseModule):
             font=cv2.FONT_HERSHEY_SIMPLEX,
             font_scale=self.overlay_font_size,
             font_color=(0, 0, 255),
-            thickness=2
+            thickness=2,
+            max_value=max_value,
+            min_value=min_value
         )
         self._draw_curve(
             frame,
@@ -291,7 +300,9 @@ class VideoAnnotationModule(BaseModule):
             font=cv2.FONT_HERSHEY_SIMPLEX,
             font_scale=self.overlay_font_size,
             font_color=(0, 255, 0),
-            thickness=2
+            thickness=2,
+            max_value=max_value,
+            min_value=min_value
         )
 
         # Highlight the point of the current frame in the Curves panel
@@ -305,7 +316,7 @@ class VideoAnnotationModule(BaseModule):
             if max(self.total_boxes_per_frame) > 0:
                 current_point_y_total = int(
                     new_panel_y + self.overlay_height - (
-                            self.total_boxes_per_frame[current_frame_idx] / max(self.total_boxes_per_frame)
+                            self.total_boxes_per_frame[current_frame_idx] / max_value
                     ) * self.overlay_height
                 )
                 cv2.circle(frame, (current_point_x, current_point_y_total), 5, (0, 0, 255), -1)  # 红点表示总 box 数
@@ -313,21 +324,20 @@ class VideoAnnotationModule(BaseModule):
             if max(self.filtered_boxes_per_frame) > 0:
                 current_point_y_filtered = int(
                     new_panel_y + self.overlay_height - (
-                            self.filtered_boxes_per_frame[current_frame_idx] / max(self.filtered_boxes_per_frame)
-                    ) * self.overlay_height
+                            self.filtered_boxes_per_frame[current_frame_idx] / max_value) * self.overlay_height
                 )
                 cv2.circle(frame, (current_point_x, current_point_y_filtered), 5, (0, 255, 0), -1)  # 绿点表示过滤后的 box 数
 
         return frame
 
     def _draw_curve(self, frame, data, region, color,
-                    font, font_scale, font_color, thickness, label=None, label_position=None):
+                    font, font_scale, font_color, thickness, label=None, label_position=None, max_value=None, min_value=None):
         """Draw a curve in the specified region"""
         x, y, width, height = region
         if not data:
             return
-        max_value = max(max(data), 1)
-        min_value = min(data)
+        # max_value = max(max(data), 1)
+        # min_value = min(data)
         if max_value == min_value:
             scale_y = height / (max_value + 1)  # Avoid division by zero
         else:
